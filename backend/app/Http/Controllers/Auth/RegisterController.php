@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -20,12 +21,23 @@ class RegisterController extends Controller
      */
     public function __invoke(UserRequest $request)
     {
-        $register = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'role'      => 'user',
-            'password'  => Hash::make($request->password)
-        ]);
-        return response()->json(['Regiter created Successfully.', 200, new UserResource($register)]);
+        try {
+            $register = User::create([
+                'name'      => $request->name,
+                'email'     => $request->email,
+                'role'      => 'user',
+                'password'  => Hash::make($request->password)
+            ]);
+            return response()->json([
+                'massage'   => 'Regiter created Successfully.',
+                'success'   => true,
+                'data'      => new UserResource($register)
+            ], 201);
+        } catch (QueryException $e) {
+            return response()->json([
+                'massage'   => 'Regitered Filed' . $e,
+                'success'   => false
+            ]);
+        }
     }
 }
