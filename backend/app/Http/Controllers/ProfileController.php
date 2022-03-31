@@ -2,29 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileRequest;
+use App\Http\Resources\ProfileResource;
+use App\Models\profile;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,9 +16,21 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProfileRequest $request)
     {
-        //
+        $create = profile::create([
+            'user_id'       => $request->user()->id,
+            'nama'          => $request->nama,
+            'nomor'         => $request->nomor,
+            'tempatLahir'   => $request->tempatLahir,
+            'tangalLahir'   => $request->tanggalLahir,
+            'jenisKelamin'  => $request->jenisKelamin,
+        ]);
+        return response()->json([
+            'massage'   => 'created successfully.',
+            'success'   => true,
+            'data'      => new ProfileResource($create)
+        ], 201);
     }
 
     /**
@@ -43,20 +39,21 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $id = $request->user()->id;
+        $show = profile::find($id);
+        if (is_null($show)) {
+            return response()->json([
+                'massage'   => 'Data anda belum lengkap. Silakan lengkapi data anda',
+                'success'   => false
+            ]);
+        }
+        return response()->json([
+            'massage'   => 'Your Profile',
+            'success'   => true,
+            'data'      => new ProfileResource($show)
+        ], 200);
     }
 
     /**
@@ -66,9 +63,22 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProfileRequest $request, $id)
     {
-        //
+        $update =  profile::findOrFail($id);
+        $save = $update->update([
+            'user_id'       => $request->user()->id,
+            'nama'          => $request->nama,
+            'nomor'         => $request->nomor,
+            'tempatLahir'   => $request->tempatLahir,
+            'tangalLahir'   => $request->tanggalLahir,
+            'jenisKelamin'  => $request->jenisKelamin,
+        ]);
+        return response()->json([
+            'massage'   => 'updated successfully.',
+            'success'   => true,
+            'data'      => new ProfileResource($save)
+        ], 200);
     }
 
     /**
@@ -79,6 +89,11 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $profile = profile::findOrFail($id);
+        $profile->delete();
+        return response()->json([
+            'massage'   => 'deleted successfully.',
+            'success'   => true,
+        ], 200);
     }
 }
