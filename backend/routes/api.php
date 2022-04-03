@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserAddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('profile', [ProfileController::class, 'store']);
     Route::put('profile/{id}', [ProfileController::class, 'update']);
     Route::delete('profile/{id}', [ProfileController::class, 'destroy']);
+
+    Route::get('address/{user_id}', [UserAddressController::class, 'index']);
+    Route::get('address/{user_id)', [UserAddressController::class, 'store']);
+    Route::get('address/{id}', [UserAddressController::class, 'show']);
+    Route::get('address/{id}', [UserAddressController::class, 'update']);
+    Route::get('address/{id}', [UserAddressController::class, 'destory']);
 });
 Route::post('register', RegisterController::class);
 Route::post('login', [LoginController::class, 'login']);
