@@ -16,16 +16,17 @@ class UserAddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($user_id)
+    public function index(Request $request)
     {
-        $user = User::find($user_id);
+        $show = $request->user()->id;
+        $user = User::find($show->id);
         if (is_null($user)) {
             return response()->json([
                 'massage'   => 'user not registered',
                 'success'   => false
             ], 404);
         }
-        $address = UserAddress::where('user_id', $user_id)->get();
+        $address = UserAddress::where('user_id', $show->id)->get();
         return response()->json([
             'massage'   => 'Show get by user ID User Address',
             'success'   => true,
@@ -39,7 +40,7 @@ class UserAddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $user_id)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'address'   => ['required']
@@ -47,7 +48,8 @@ class UserAddressController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        $user = User::find($user_id);
+        $show = $request->user()->id;
+        $user = User::find($show->id);
         if (is_null($user)) {
             return response()->json([
                 'massage'   => 'user not registered',

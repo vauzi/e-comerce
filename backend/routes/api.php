@@ -29,11 +29,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('profile/{id}', [ProfileController::class, 'update']);
     Route::delete('profile/{id}', [ProfileController::class, 'destroy']);
 
-    Route::get('address/{user_id}', [UserAddressController::class, 'index']);
-    Route::get('address/{user_id)', [UserAddressController::class, 'store']);
+    Route::get('address', [UserAddressController::class, 'index']);
+    Route::post('address', [UserAddressController::class, 'store']);
     Route::get('address/{id}', [UserAddressController::class, 'show']);
-    Route::get('address/{id}', [UserAddressController::class, 'update']);
-    Route::get('address/{id}', [UserAddressController::class, 'destory']);
+    Route::put('address/{id}', [UserAddressController::class, 'update']);
+    Route::delete('address/{id}', [UserAddressController::class, 'destory']);
 });
 Route::post('register', RegisterController::class);
 Route::post('login', [LoginController::class, 'login']);
