@@ -20,7 +20,7 @@ class ProfileResource extends JsonResource
             'nama'          => $this->name,
             'nomor'         => $this->nomor,
             'tempatLahir'   => $this->tempatLahir,
-            'tangalLahir'   => $this->tanggalLahir,
+            'tanggalLahir'   => $this->tanggalLahir,
             'jenisKelamin'  => $this->jenisKelamin,
         ];
     }

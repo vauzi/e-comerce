@@ -23,7 +23,7 @@ class ProfileController extends Controller
             'nama'          => $request->nama,
             'nomor'         => $request->nomor,
             'tempatLahir'   => $request->tempatLahir,
-            'tangalLahir'   => $request->tanggalLahir,
+            'tanggalLahir'   => $request->tanggalLahir,
             'jenisKelamin'  => $request->jenisKelamin,
         ]);
         return response()->json([

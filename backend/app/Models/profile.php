@@ -11,11 +11,10 @@ class profile extends Model
 
     protected $fillable = [
         'user_id',
-        'foto',
         'nama',
         'nomor',
         'tempatLahir',
-        'tangalLahir',
+        'tanggalLahir',
         'jenisKelamin',
     ];
 }

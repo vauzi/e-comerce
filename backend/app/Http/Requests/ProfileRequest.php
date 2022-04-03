@@ -25,7 +25,7 @@ class ProfileRequest extends FormRequest
     {
         return [
             'nama'          => ['required', 'min:3', 'string'],
-            'nomor'         => ['required', 'unique:profiles', 'numeric'],
+            'nomor'         => ['required', 'unique:profiles', 'numeric', 'min:10'],
             'tempatLahir'   => ['string'],
             'jenisKelamin'  => ['string']
         ];
