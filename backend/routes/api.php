@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserAddressController;
 use Illuminate\Http\Request;
@@ -34,6 +35,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('address/{id}', [UserAddressController::class, 'show']);
     Route::put('address/{id}', [UserAddressController::class, 'update']);
     Route::delete('address/{id}', [UserAddressController::class, 'destory']);
+
+    Route::get('category', [CategoryController::class, 'index']);
+    Route::post('category', [CategoryController::class, 'store']);
+    Route::get('category/{id}', [CategoryController::class, 'show']);
+    Route::put('category/{id}', [CategoryController::class, 'update']);
+    Route::delete('category/{id}', [CategoryController::class, 'destroy']);
 });
 Route::post('register', RegisterController::class);
 Route::post('login', [LoginController::class, 'login']);
