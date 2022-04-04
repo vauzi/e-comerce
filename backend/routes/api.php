@@ -6,7 +6,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserAddressController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
