@@ -1,12 +1,3 @@
-<script>
-    import AuthLayout from './index.vue'
-    export default {
-        name: 'Login',
-        components: {
-            AuthLayout
-        }
-    }
-</script>
 <template>
     <AuthLayout>
         <template v-slot:auth>
@@ -18,9 +9,11 @@
                     <div class="absolute left-0 top-0 flex justify-center w-full -mt-2">
                         <span class="bg-white px-4 text-xs text-gray-500 uppercase">Add a new user</span>
                     </div>
+                        <p v-text="validator.errors"></p>
                 </div>
                 <div class="mt-10">
-                    <form action="#">
+                    <form @submit.prevent="hendleSubmit">
+                        <!-- name -->
                         <div class="flex flex-col mb-6">
                             <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Name:</label>
                             <div class="relative">
@@ -35,9 +28,10 @@
 
                                 <input id="name" type="text" name="name"
                                     class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
-                                    placeholder="Your Name" />
+                                    placeholder="Your Name" v-model="data.name" />
                             </div>
                         </div>
+                        <!-- email -->
                         <div class="flex flex-col mb-6">
                             <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">E-Mail
                                 Address:</label>
@@ -53,9 +47,10 @@
 
                                 <input id="email" type="email" name="email"
                                     class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
-                                    placeholder="E-Mail Address" />
+                                    placeholder="E-Mail Address" v-model="data.email" />
                             </div>
                         </div>
+                        <!-- password -->
                         <div class="flex flex-col mb-6">
                             <label for="password"
                                 class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Password:</label>
@@ -73,7 +68,28 @@
 
                                 <input id="password" type="password" name="password"
                                     class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
-                                    placeholder="Password" />
+                                    placeholder="Password" v-model="data.password" />
+                            </div>
+                        </div>
+                        <!-- password confirmation -->
+                        <div class="flex flex-col mb-6">
+                            <label for="password"
+                                class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Password:</label>
+                            <div class="relative">
+                                <div
+                                    class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+                                    <span>
+                                        <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path
+                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <input id="password" type="password" name="password"
+                                    class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
+                                    placeholder="Password" v-model="data.password_confirmation" />
                             </div>
                         </div>
 
@@ -109,3 +125,37 @@
         </template>
     </AuthLayout>
 </template>
+<script>
+    import {
+        reactive,
+        ref
+    } from "@vue/reactivity";
+    import axios from 'axios'
+    import AuthLayout from './index.vue'
+    export default {
+        name: 'Register',
+        components: {
+            AuthLayout
+        },
+        setup() {
+            const data = reactive({
+                name: "",
+                email: "",
+                password: "",
+                password_confirmation: ""
+            })
+            const validator = ref([]);
+            const hendleSubmit = async () => {
+                await axios.post("http://localhost:8000/api/register", data).then((response) => {
+                }).catch(error => {
+                    validator.value = error.response.data;
+                });
+            };
+            return {
+                hendleSubmit,
+                data,
+                validator
+            }
+        }
+    }
+</script>

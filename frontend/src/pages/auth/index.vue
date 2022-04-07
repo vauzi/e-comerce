@@ -1,5 +1,5 @@
 <template>
-    <main class="w-full h-screen bg-gray-100 overflow-hidden">
+    <main class="w-full h-screen bg-gray-100 overflow-auto">
         <div class="flex items-center justify-between px-16 py-3 space-x-3">
             <span class="flex items-center text-green-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 20 20" fill="currentColor">
@@ -20,8 +20,8 @@
             </span>
         </div>
         <!-- component -->
-        <div class="px-20 h-screen w-screen flex flex-col-reverse md:flex-row items-center justify-center -mt-7">
-            <div class="content text-3xl text-center md:text-left">
+        <div class="px-20 h-screen w-screen flex flex-col-reverse md:flex-row items-center justify-center md:-mt-7">
+            <div class="content text-3xl text-center md:text-left hidden md:block">
                 <span class="flex items-center space-x-2">
                     <h1 class="text-5xl text-green-500 font-bold">Comerce</h1>
                     <h1 class="text-5xl text-gray-700 font-bold">Bag</h1>
