@@ -25,10 +25,7 @@
                                     </svg>
                                 </div>
 
-                                <input 
-                                    id="name" 
-                                    type="text" 
-                                    name="name"
+                                <input id="name" type="text" name="name"
                                     :class="validator.name? 'border border-red-400':'border border-gray-400'"
                                     class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg  w-full py-2 focus:outline-none focus:border-blue-400"
                                     placeholder="Your Name" v-model="data.name" />
@@ -77,7 +74,8 @@
                                     class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                     placeholder="Password" v-model="data.password" />
                             </div>
-                            <p class="text-red-400 mt-2 text-xs" v-if="validator.password" v-text="validator.password"></p>
+                            <p class="text-red-400 mt-2 text-xs" v-if="validator.password" v-text="validator.password">
+                            </p>
                         </div>
                         <!-- password confirmation -->
                         <div class="flex flex-col mb-6">
@@ -100,7 +98,8 @@
                                     class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                     placeholder="Password" v-model="data.password_confirmation" />
                             </div>
-                            <p class="text-red-400 mt-2 text-xs" v-if="validator.password_confirmation" v-text="validator.password_confirmation"></p>
+                            <p class="text-red-400 mt-2 text-xs" v-if="validator.password_confirmation"
+                                v-text="validator.password_confirmation"></p>
                         </div>
 
                         <div class="flex w-full">
@@ -156,10 +155,10 @@
             })
             const validator = ref([]);
             const hendleSubmit = async () => {
-                await axios.post("http://localhost:8000/api/register", data).then((response) => {
-                }).catch(error => {
-                    validator.value = error.response.data.errors;
-                });
+                await axios.post("http://localhost:8000/api/register", data).then((response) => {}).catch(
+                    error => {
+                        validator.value = error.response.data.errors;
+                    });
             };
             return {
                 hendleSubmit,

@@ -21,27 +21,20 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        try {
-            $user = User::where('email', $request->email)->first();
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                return response()->json([
-                    'massage'   => 'Unauthorized',
-                    'success'    => false
-                ], Response::HTTP_UNAUTHORIZED);
-            }
-            $token = $user->createToken($user->role)->plainTextToken;
+        $user = User::where('email', $request->email)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'massage'   => 'Login succsess',
-                'success'    => true,
-                'user'      => $user,
-                'token'     => $token
-            ]);
-        } catch (QueryException $e) {
-            return response()->json([
-                'massage'   => 'login Filed' . $e,
+                'massage'   => 'Unauthorized',
                 'success'    => false
-            ]);
+            ], Response::HTTP_UNAUTHORIZED);
         }
+        $token = $user->createToken($user->role)->plainTextToken;
+        return response()->json([
+            'massage'   => 'Login succsess',
+            'success'    => true,
+            'user'      => $user,
+            'token'     => $token
+        ]);
     }
     public function logout(Request $request)
     {
