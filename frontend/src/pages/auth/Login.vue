@@ -18,7 +18,7 @@
                                     class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
                                     <IconAt />
                                 </div>
-                                <Input input="email" type="email" holder="E-Mail Address:" />
+                                <Input input="email" type="email" holder="E-Mail Address:" v-model="data.email" />
                             </div>
                         </div>
 
@@ -29,14 +29,19 @@
                                     class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
                                     <Lock />
                                 </div>
-                                <Input input="password" type="password" holder="Password" />
+                                <Input input="password" type="password" holder="Password" v-model="data.password"/>
                             </div>
                         </div>
                         <div class="flex items-center justify-end m-3">
                             <a href="#" class="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">Forgot Your Password?</a>
                         </div>
-                        <div class="flex w-full">
-                            <Button type="submit" btn_name="Login" btn_full="full" icon="Login" color="blue" disabled />
+                        <div class="w-full"> 
+                            <div class="w-full" v-if="loading">
+                                <Button type="submit" btn_name="Login" icon="Login" color="blue" />
+                            </div>
+                            <div class="w-full" v-else>
+                                <Button loading="true" color="blue"/>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -44,6 +49,7 @@
                     <a href="#" target="_blank"
                         class="inline-flex items-center font-bold text-blue-500 hover:text-blue-700 text-xs text-center">
                         <users-plus></users-plus>
+                        <!-- {{ email }} -->
                         <router-link to="/register" class="ml-2">You don't have an account?</router-link>
                     </a>
                 </div>
@@ -76,22 +82,32 @@
             Button
         },
         setup() {
-            const formData = reactive({
+            const data = reactive({
                 email: '',
                 password: ''
             })
+            const loading = ref(true)
             const validator = ref([])
             const hendleSubmited = async () => {
-                await axios.post("http://localhost:8000/api/login", formData).then((response) => {})
+                loading.value = false
+                await axios.post("http://localhost:8000/api/login", data).then((response) => {
+                    if (response.data.success) {
+                        loading.value = true
+                    }
+                })
                     .catch(error => {
                         validator.value = error.response.data;
+                        if (validator.value) {
+                            loading.value = true
+                        }
                     });
-                console.log(validator.value);
+                console.log(data);
             }
             return {
-                formData,
                 validator,
                 hendleSubmited,
+                data,
+                loading
             }
         }
     }
